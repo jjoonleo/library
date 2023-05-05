@@ -27,12 +27,16 @@ router.get(
     console.log("get /borrow");
     if (!req.query?.id) {
       return res.status(400).json({
-        error: "id is required",
+        msg: "id is required",
       });
     }
     let db = req.app.get("database");
     let book = await db.Book.findById(req.query.id[0]);
-    
+
+    if (book.Checkout != null) {
+      res.status(400).json({ msg: "not available book" });
+    }
+
     let checkout = new db.Checkout({
       book: book.id,
       user: req.user.id,
@@ -41,8 +45,10 @@ router.get(
     });
 
     let saved_checkout = await checkout.save();
-    await db.Book.updateOne(book, {available: saved_checkout.id});
-    await db.User.updateOne(req.user, {borrowedBooks:[...req.user.borrowedBooks, saved_checkout.id]});
+    await db.Book.updateOne(book, { available: saved_checkout.id });
+    await db.User.updateOne(req.user, {
+      borrowedBooks: [...req.user.borrowedBooks, saved_checkout.id],
+    });
     // await book.update
     return res.status(200).json({ success: true });
   })
