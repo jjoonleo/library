@@ -56,11 +56,34 @@ router.get(
   })
 );
 
+router.get(
+  "/return",
+  passport.authenticate("jwt", { session: false }),
+  tryCatch(async (req, res) => {
+    console.log("get /return");
+    if (!req.query?.id) {
+      return res.status(400).json({
+        msg: "id is required",
+      });
+    }
+    let db = req.app.get("database");
+
+    let book = await db.Book.findById(req.query.id[0]);
+    await db.Book.updateOne(book, { available: null });
+
+    const index = user.borrowedBooks.indexOf(5);
+
+    if (index > -1) {
+      await db.User.updateOne(user, {borrowedBooks: user.borrowedBooks.splice(index,1)});
+    }
+  })
+);
+
 router.post(
   "/save",
   tryCatch(async (req, res) => {
     console.log("post '/save' called");
-    
+
     let db = req.app.get("database");
 
     let book = new db.Book(req.body);
