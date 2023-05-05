@@ -1,0 +1,75 @@
+.frame{
+    display: grid;
+    justify-items: center;
+}
+
+.list-btn{
+    border: none;
+    outline: none;
+    border-radius: 5px;
+
+    background-color: white;
+    
+    font-family: Noto Sans KR;
+    font-weight: 500;
+    font-size: 50px;
+
+    text-align: center;
+}
+
+.list-div{
+    justify-content: center;
+    display: flex;
+}
+
+.name-input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+
+    width: 500px;
+    
+    border-bottom-color: #BDDCD2;
+    background-color: white;
+    caret-color: #BDDCD2;
+
+    font-family: Noto Sans KR;
+    font-weight: 500;
+    font-size: 35px;
+    text-align: center;
+}
+
+.submit-btn{
+    border: none;
+    outline: none;
+    border-radius: 7px;
+
+    background-color: #BDDCD2;
+    color: white;
+
+    font-family: Noto Sans KR;
+    font-weight: 700;
+    font-size: 25px;
+
+    padding: 7px 180px 7px 180px;
+    margin-top: 25px;
+}
+
+.title-text{
+    font-family: Noto Sans KR;
+    font-weight: bold;
+    font-size: 80px;
+    
+    margin: 0px;
+}
+
+.error-text{
+    color: #FF4949;
+
+    font-family: Noto Sans KR;
+    font-weight: 500;
+    font-size: 15px;
+
+    margin: 0px;
+}

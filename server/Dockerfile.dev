@@ -1,0 +1,10 @@
+FROM node:lts-alpine
+
+LABEL version="1.0.0"
+LABEL description="Development image for server"
+
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --silent && mv node_modules ../
+COPY . .
+CMD ["npm", "run", "dev"]
