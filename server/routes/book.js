@@ -15,8 +15,10 @@ router.get(
     let db = req.app.get("database");
     let query = {};
     console.log(req.query);
-    let values = await db.Book.find({ id: req.query?.id ? req.query?.id[0]:null});
-    //return res.status(200).json({ values: values.map((value) => value.toClient()) });
+    let values = await db.Book.find({
+      id: req.query?.id ? req.query?.id[0] : null,
+    });
+    return res.status(200).json({ values: values.map((value) => value.toClient()) });
   })
 );
 
