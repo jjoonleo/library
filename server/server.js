@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const passport = require("passport");
+const request = require("request");
 
 const config = require("./config");
 const database = require("./database/database");
@@ -32,14 +33,18 @@ app.get("/hi", (req, res) => {
   });
 });
 
-app.get('/protected', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  console.log("??");
-  return res.status(200).json({
-    success: true, 
-    msg: "You are successfully authenticated to this route!",
-    user: req.user.forClient(""),
-  });
-});
+app.get(
+  "/protected",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    console.log("??");
+    return res.status(200).json({
+      success: true,
+      msg: "You are successfully authenticated to this route!",
+      user: req.user.forClient(""),
+    });
+  }
+);
 
 app.use(
   router.use((req, res, next) => {
@@ -57,3 +62,22 @@ app.listen(PORT, async () => {
   await database.init(app, config);
   require("./config/passport")(passport);
 });
+
+request.post(
+  "https://m.megabox.co.kr/on/oh/ohb/SimpleBooking/selectBokdList.do",
+  {
+    json: {
+      brchNo1: "1351_DBC",
+      flag: "DATE",
+      menuId: "M-RE-TH-02",
+      playDe: "20230721",
+      sellChnlCd: "MOBILEWEB",
+      sortMthd: "2",
+    },
+  },
+  function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+    }
+  }
+);
