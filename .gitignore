@@ -134,3 +134,7 @@ mongodb/
 ./mongodb/
 .wt
 .DS_Store
+
+*.pem
+ngnix/etc/ssl/
+movie-notification-5425b-firebase-adminsdk-mvbwo-121e43f426.json
