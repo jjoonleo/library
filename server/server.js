@@ -41,6 +41,15 @@ app.get('/protected', passport.authenticate('jwt', { session: false }), (req, re
   });
 });
 
+app.use(
+  router.use((req, res, next) => {
+    res.setHeader(
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains; preload"
+    );
+    next();
+  })
+);
 app.use(errorHandler);
 
 app.listen(PORT, async () => {
