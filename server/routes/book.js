@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 let { tryCatch } = require("../utils/tryCatch");
+const config = require("../config");
 const passport = require("passport");
 
 router.use((req, res, next) => {
@@ -94,6 +95,7 @@ router.get(
     return res.status(200).json(book.toClient());
   })
 );
+
 router.get(
   "/checkouts",
   passport.authenticate("jwt", { session: false }),
