@@ -58,28 +58,11 @@ services:
       networks:
           - library-mern-api
 
-    client:
-      restart: always
-      container_name: client
-      build:
-          context: ./client
-          dockerfile: Dockerfile.dev
-      volumes:
-          - /app/node_modules
-          - ./client:/app
-      # ports:
-      #    - 3000:3000
-      depends_on:
-          - api
-      networks:
-          - library-mern-api
-
     nginx:
       restart: always
       container_name: ngnix
       depends_on:
           - api
-          - client
       build:
           context: ./nginx
           dockerfile: Dockerfile.dev
