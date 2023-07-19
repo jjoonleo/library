@@ -1,5 +1,6 @@
 module.exports = {
   sever_port: 8000,
+  loanPeriod: 7, 
   db_schemas: [
     {
       schemaName: "userSchema",
