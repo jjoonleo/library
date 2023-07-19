@@ -12,7 +12,7 @@ let Schema = {};
 
 Schema.createSchema = (mongoose) => {
   let userSchema = mongoose.Schema({
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     hash: { type: String },
     salt: { type: String },
     name: { type: String, required: true },
