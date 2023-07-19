@@ -9,6 +9,7 @@ Schema.createSchema = (mongoose) => {
     author: {type: String, required: true},
     publisher: {type: String, required: true},
     description: {type: String},
+    img: {type:String},
     isbn: {type:String},
   });
 
