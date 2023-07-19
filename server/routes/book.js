@@ -38,15 +38,20 @@ router.get(
     let db = req.app.get("database");
     let book = await db.Book.findById(req.query.id[0]);
 
-    if (book.Checkout != null) {
-      res.status(400).json({ msg: "not available book" });
+    if (book.available != null) {
+      console.log("not available book");
+      return res.status(400).json({ msg: "not available book" });
     }
 
+    let today = new Date();
+    let dueDate = new Date();
+    dueDate.setDate(today.getDate() + config.loanPeriod);
     let checkout = new db.Checkout({
       book: book.id,
       user: req.user.id,
-      date: new Date(),
-      returnDate: new Date(),
+      date: today,
+      returnDate: null,
+      dueDate: dueDate,
     });
 
     let saved_checkout = await checkout.save();
@@ -55,7 +60,7 @@ router.get(
       borrowedBooks: [...req.user.borrowedBooks, saved_checkout.id],
     });
     // await book.update
-    return res.status(200).json({ success: true });
+    return res.status(200).json(saved_checkout.toClient());
   })
 );
 
