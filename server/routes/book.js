@@ -111,6 +111,21 @@ router.get(
   })
 );
 
+router.get(
+  "/checkoutByBookId",
+  passport.authenticate("jwt", { session: false }),
+  tryCatch(async (req, res) => {
+    console.log("get /checkoutByBookId");
+    console.log(`id: ${req.query?.id ? req.query?.id[0] : null}`);
+    let db = req.app.get("database");
+    let checkout = await db.Checkout.findOne({
+      user: req.user.id,
+      book: req.query?.id ? req.query?.id[0] : null,
+      returnDate:null
+    });
+    checkout = checkout?.toClient();
+    console.log(checkout);
+    return res.status(200).json(checkout);
   })
 );
 
