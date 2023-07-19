@@ -133,3 +133,4 @@ mongodb/
 .mongodb/
 ./mongodb/
 .wt
+.DS_Store
