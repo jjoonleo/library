@@ -12,6 +12,8 @@ async function connect(app, config, first) {
 
         let databaseUrl = process.env.DATABASE_URL || config.db_url;
 
+        mongoose.set('strictQuery', false);
+
         console.log("connecting to database .........");
         console.log(`databas url ${process.env.MONGO_URI}`);
 
