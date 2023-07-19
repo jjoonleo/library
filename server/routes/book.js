@@ -14,11 +14,14 @@ router.get(
     console.log("get / called");
     let db = req.app.get("database");
     let query = {};
-    console.log(req.query);
-    let values = await db.Book.find({
-      id: req.query?.id ? req.query?.id[0] : null,
-    });
-    return res.status(200).json({ values: values.map((value) => value.toClient()) });
+    console.log(req.query?.id ? req.query?.id[0] : null);
+    let values = await db.Book.find(
+      req.query?.id ? {_id: req.query?.id[0]} : null,
+    );
+    //console.log(values);
+    return res
+      .status(200)
+      .json({ values: values.map((value) => value.toClient()) });
   })
 );
 
