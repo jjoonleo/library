@@ -94,7 +94,23 @@ router.get(
     return res.status(200).json(book.toClient());
   })
 );
+router.get(
+  "/checkouts",
+  passport.authenticate("jwt", { session: false }),
+  tryCatch(async (req, res) => {
+    console.log("get /checkouts");
+
+    let db = req.app.get("database");
+    let checkouts = [];
+    for (let i = 0; i < req.user.borrowedBooks.length; i++) {
+      let result = await db.Checkout.findById(req.user.borrowedBooks[i]);
+      checkouts.push(result?.toClient());
     }
+    console.log(checkouts);
+    return res.status(200).json({ values: checkouts });
+  })
+);
+
   })
 );
 
