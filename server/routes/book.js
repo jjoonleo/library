@@ -77,12 +77,23 @@ router.get(
     let db = req.app.get("database");
 
     let book = await db.Book.findById(req.query.id[0]);
+    let checkout_id = book.available;
+    let checkout = await db.Checkout.findById(checkout_id);
+    await db.Checkout.updateOne(checkout, { returnDate: Date() });
     await db.Book.updateOne(book, { available: null });
 
-    const index = user.borrowedBooks.indexOf(5);
-
+    const index = req.user.borrowedBooks.indexOf(checkout_id);
+    console.log(index);
+    console.log(checkout_id);
     if (index > -1) {
-      await db.User.updateOne(user, {borrowedBooks: user.borrowedBooks.splice(index,1)});
+      await db.User.updateOne(req.user, {
+        borrowedBooks: req.user.borrowedBooks.splice(index, 1),
+      });
+    }
+    await db.User.updateOne({_id:req.user.id}, {borrowedBooks:req.user.borrowedBooks});
+    return res.status(200).json(book.toClient());
+  })
+);
     }
   })
 );
